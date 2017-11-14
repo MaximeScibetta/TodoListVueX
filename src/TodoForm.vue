@@ -4,7 +4,8 @@
                 type="text" placeholder="What needs to be done ?" 
                 @keydown.enter="sendTask($event.target.value)"
                 v-model="newTask">
-        <input class="checkAll" type="checkbox" @click="checkAll()">
+        <input v-if="filteredTasks.length" class="checkAll" type="checkbox" @click="checkAll()" v-bind:checked="itemLeft == 0" >
+
     </div>
 </template>
 
@@ -20,6 +21,8 @@ export default {
   },
   computed:{
       ...mapGetters([
+          'itemLeft',
+          'filteredTasks',
       ])
   },
   methods:{

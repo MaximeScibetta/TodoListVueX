@@ -7,9 +7,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state:{
         tasks: [],
-        allChecked: false,
         visibility: 'all',
-        itemLeft: 0,
     },
     getters:{
         // Return all items in filteredTasks array
@@ -33,7 +31,7 @@ export const store = new Vuex.Store({
             })
             state.itemLeft = taskCompleted;
             return state.itemLeft;
-        }
+        },
     },
     mutations: {
         // send the task on keyup.enter event
@@ -47,16 +45,14 @@ export const store = new Vuex.Store({
         },
         // Check/uncheck all task on click event
         checkAll(state){
-            if( !state.allChecked ){
-                state.tasks.forEach( (task) => {
-                    task.completed = true;
-                }, state);
-                state.allChecked = true;
-            }else{
+            if( state.itemLeft == 0 ){
                 state.tasks.forEach( (task) => {
                     task.completed = false;
-                }, state);
-                state.allChecked = false;
+                } )
+            } else{
+                state.tasks.forEach( (task) => {
+                    task.completed = true;
+                } )
             }
         },
         // Delete task on click
@@ -84,6 +80,6 @@ export const store = new Vuex.Store({
         // Delete all tasks are completed on button click
         clearCompleted(state){
             state.tasks = state.tasks.filter( task => !task.completed )
-        }
+        },
     },
 })
