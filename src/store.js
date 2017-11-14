@@ -7,7 +7,6 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state:{
         tasks: [],
-        filteredTasks: [],
         allChecked: false,
         visibility: 'all',
         itemLeft: 0,
@@ -15,7 +14,14 @@ export const store = new Vuex.Store({
     getters:{
         // Return all items in filteredTasks array
         filteredTasks(state){
-            return state.filteredTasks
+            let filteredTasks = []
+            if (state.visibility === 'active') {
+                return filteredTasks = state.tasks.filter( (task) => !task.completed );
+            } else if(state.visibility === 'completed') {
+                return filteredTasks = state.tasks.filter( (task) => task.completed );
+            } else{
+                return filteredTasks = state.tasks;
+            }
         },
         // Count items left in my tasks array 
         itemLeft(state){
@@ -36,11 +42,8 @@ export const store = new Vuex.Store({
                           title: payload,
                           completed: false,
                           editable: false,
-                          ts: nanoid(),
+                          id: nanoid(),
                         });
-            state.filteredTasks = state.tasks;
-            payload = '';
-            console.log(payload)
         },
         // Check/uncheck all task on click event
         checkAll(state){
@@ -69,31 +72,18 @@ export const store = new Vuex.Store({
             state.tasks[key].editable = false;
         },
         // Filter task on click on filter button
-        filterTasks(state, what) {
-            state.filteredTasks = []
+        setFilter(state, what) {
             if (what === 'active') {
                 state.visibility = what;
-                return state.filteredTasks = state.tasks.filter( (task) => !task.completed );
             } else if(what === 'completed') {
                 state.visibility = what;
-                return state.filteredTasks = state.tasks.filter( (task) => task.completed );
             } else{
                 state.visibility = what;
-                return state.filteredTasks = state.tasks;
             }
-        },
-        // Remove from filteredTasks when click on checkbox
-        removeFromFilter(state, key){
-          if (state.visibility === 'active') {
-            state.filteredTasks.splice(key, 1);
-          } else if(state.visibility === 'completed') {
-            state.filteredTasks.splice(key, 1);
-          }
         },
         // Delete all tasks are completed on button click
         clearCompleted(state){
             state.tasks = state.tasks.filter( task => !task.completed )
-            state.filteredTasks = state.tasks
         }
     },
 })

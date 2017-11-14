@@ -5,11 +5,11 @@
           <ul class="list-group">
               <li class="list-group-item" v-for="(task, key) in filteredTasks">
                   <template v-if="task.editable == false" >
-                    <input type="checkbox" :id="key" v-model="task.completed" @click="removeFromFilter(key)">
+                    <input type="checkbox" :id="key" v-model="task.completed" >
                     <label @dblclick="isEditable(key)" @keyup.prevent.enter="notEditable(key)" :contenteditable="task.editable">{{task.title}}</label>
                   </template>
                   <template v-if="task.editable == true">
-                    <input type="checkbox" :id="key" v-model="task.completed" @click="removeFromFilter(key)">
+                    <input type="checkbox" :id="key" v-model="task.completed" >
                     <input type="text" @keyup.prevent.enter="notEditable(key)" @blur="notEditable(key)" :contenteditable="task.editable" v-model="task.title">
                   </template>
                   <button @click="removeTask(key)" class="delete">x</button>
