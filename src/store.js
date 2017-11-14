@@ -8,6 +8,7 @@ export const store = new Vuex.Store({
     state:{
         tasks: [],
         visibility: 'all',
+        lastEditable: null,
     },
     getters:{
         // Return all items in filteredTasks array
@@ -61,6 +62,9 @@ export const store = new Vuex.Store({
         },
         // Make task editable on double click
         isEditable(state, key){
+            // state.tasks.forEach( (task) => {
+            //     task.editable = false;
+            // } )
             state.tasks[key].editable = true;
         },
         // Make task not editable on keyup.enter

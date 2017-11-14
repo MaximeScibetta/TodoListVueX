@@ -10,7 +10,7 @@
                   </template>
                   <template v-if="task.editable == true">
                     <input type="checkbox" :id="key" v-model="task.completed" >
-                    <input type="text" @keyup.prevent.enter="notEditable(key)" @blur="notEditable(key)" :contenteditable="task.editable" v-model="task.title">
+                    <input v-focus  type="text" @keyup.prevent.enter="notEditable(key)" @blur="notEditable(key)" :contenteditable="task.editable" v-model="task.title">
                   </template>
                   <button @click="removeTask(key)" class="delete">x</button>
               </li>
@@ -40,5 +40,12 @@ export default {
             'removeFromFilter'
         ])
   },
+  directives: {
+        focus: {
+            inserted:  (el) => {
+                el.focus()
+            }
+        }
+  }
 }
 </script>
